@@ -167,7 +167,7 @@ export default function RegisterPage() {
   return (
     <AuthLayout>
       <div className="w-full max-w-xs md:max-w-sm mx-auto">
-        <div className="space-y-1 text-center mb-6">
+        <div className="space-y-1 text-left mb-6">
           <h1 className="text-2xl font-extrabold">Crear cuenta</h1>
           <p className="text-sm text-muted-foreground">Completa el formulario para crear tu cuenta</p>
         </div>
@@ -282,12 +282,12 @@ export default function RegisterPage() {
               )}
             </Button>
 
-            <p className="px-8 text-center text-sm text-muted-foreground">
+            {/* <p className="px-8 text-center text-xs text-muted-foreground">
               Al crear una cuenta, aceptas nuestros {" "}
               <Link href="/terms" className="underline underline-offset-4">Términos de servicio</Link>
               {" "}y nuestra {" "}
               <Link href="/privacy" className="underline underline-offset-4">Política de privacidad</Link>.
-            </p>
+            </p> */}
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">

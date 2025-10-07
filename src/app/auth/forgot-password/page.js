@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
   return (
     <AuthLayout>
       <div className="w-full max-w-xs md:max-w-sm mx-auto">
-        <div className="flex flex-col items-center gap-1 text-center mb-6">
+        <div className="flex flex-col gap-1 mb-6">
           <h1 className="text-2xl font-bold">Recuperar contraseña</h1>
           <p className="text-sm text-muted-foreground">
             Ingresa tu email para recibir un enlace de recuperación

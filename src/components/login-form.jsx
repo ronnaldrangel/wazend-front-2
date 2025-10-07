@@ -1,6 +1,9 @@
+"use client"
+
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { Loader2, Eye, EyeOff } from "lucide-react"
 import {
   Field,
   FieldDescription,
@@ -16,10 +19,11 @@ export function LoginForm({
   submitting = false,
   ...props
 }) {
+  const [showPassword, setShowPassword] = useState(false)
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold">Iniciar sesión</h1>
           <p className="text-muted-foreground text-sm text-balance">
             Ingresa tu correo para acceder a tu cuenta
@@ -36,7 +40,27 @@ export function LoginForm({
               ¿Olvidaste tu contraseña?
             </a>
           </div>
-          <Input id="password" name="password" type="password" required />
+          <div className="relative">
+            <Input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              required
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              className="absolute inset-y-0 right-2 flex items-center text-muted-foreground hover:text-foreground"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </Field>
         <Field>
           <Button type="submit" disabled={submitting}>
