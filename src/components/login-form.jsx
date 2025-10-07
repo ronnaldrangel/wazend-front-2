@@ -61,9 +61,9 @@ export function LoginForm({
             </svg>
             Continuar con Google
           </Button>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center pt-4">
             ¿No tienes una cuenta?{" "}
-            <a href="/auth/register" className="underline underline-offset-4">
+            <a href="/auth/register" className="underline underline-offset-4  text-primary">
               Regístrate
             </a>
           </FieldDescription>

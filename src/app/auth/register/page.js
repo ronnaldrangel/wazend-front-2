@@ -317,7 +317,7 @@ export default function RegisterPage() {
 
         <p className="px-6 text-center text-sm text-muted-foreground mt-6">
           ¿Ya tienes una cuenta? {" "}
-          <Link href="/auth/login" className="font-medium text-primary hover:underline">Inicia sesión</Link>
+          <Link href="/auth/login" className="font-medium text-primary underline underline-offset-4">Inicia sesión</Link>
         </p>
       </div>
     </AuthLayout>
