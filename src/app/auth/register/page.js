@@ -9,7 +9,7 @@ import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
 import { toast } from "sonner"
 import { Separator } from "../../../components/ui/separator"
-import { Loader2, CheckCircle2, Circle } from "lucide-react"
+import { Loader2, CheckCircle2, Circle, Eye, EyeOff } from "lucide-react"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -26,6 +26,7 @@ export default function RegisterPage() {
     special: false,
     length: false,
   })
+  const [showPassword, setShowPassword] = useState(false)
 
   const generateUsernameFromEmail = (email) => {
     if (!email || typeof email !== "string") return ""
@@ -167,7 +168,7 @@ export default function RegisterPage() {
     <AuthLayout>
       <div className="w-full max-w-xs md:max-w-sm mx-auto">
         <div className="space-y-1 text-center mb-6">
-          <h1 className="text-3xl font-extrabold">Crear cuenta</h1>
+          <h1 className="text-2xl font-extrabold">Crear cuenta</h1>
           <p className="text-sm text-muted-foreground">Completa el formulario para crear tu cuenta</p>
         </div>
 
@@ -196,62 +197,78 @@ export default function RegisterPage() {
 
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Mínimo 8 caracteres"
-                className={errors.password ? "border-destructive" : ""}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Mínimo 8 caracteres"
+                  className={(errors.password ? "border-destructive " : "") + "pr-10"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  className="absolute inset-y-0 right-2 flex items-center text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
               {errors.password && (
                 <p className="text-sm text-destructive">{errors.password}</p>
               )}
-              <ul className="mt-2 space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  {passwordChecks.upper ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <span>Letra mayúscula</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  {passwordChecks.lower ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <span>Letra minúscula</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  {passwordChecks.number ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <span>Número</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  {passwordChecks.special ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <span>Carácter especial (p. ej. !?&lt;&gt;@#$%)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  {passwordChecks.length ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Circle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  <span>8 caracteres o más</span>
-                </li>
-              </ul>
+              {formData.password && (
+                <ul className="mt-1 space-y-1 text-xs leading-tight">
+                  <li className="flex items-center gap-2">
+                    {passwordChecks.upper ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                    )}
+                    <span>Letra mayúscula</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    {passwordChecks.lower ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                    )}
+                    <span>Letra minúscula</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    {passwordChecks.number ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                    )}
+                    <span>Número</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    {passwordChecks.special ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                    )}
+                    <span>Carácter especial (p. ej. !?&lt;&gt;@#$%)</span>
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    {passwordChecks.length ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                    ) : (
+                      <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                    )}
+                    <span>8 caracteres o más</span>
+                  </li>
+                </ul>
+              )}
             </div>
 
             <Button type="submit" disabled={isLoading} className="w-full">
