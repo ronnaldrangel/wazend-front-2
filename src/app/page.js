@@ -2,14 +2,13 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 
 export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    router.push("/dashboard")
+    router.push("/auth/login")
   }, [router])
 
   return (
