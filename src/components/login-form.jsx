@@ -45,6 +45,7 @@ export function LoginForm({
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
               required
               className="pr-10"
             />
