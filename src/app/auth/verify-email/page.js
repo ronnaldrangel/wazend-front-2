@@ -32,7 +32,7 @@ export default function VerifyEmail() {
     setMessage("")
 
     try {
-      const response = await fetch("/api/resend-verification", {
+      const response = await fetch("/api/auth/send-email-confirmation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,10 +71,11 @@ export default function VerifyEmail() {
 
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4 mt-6">
-          <div className="space-y-2">
+          
+          {/* <div className="space-y-2">
             <Label htmlFor="email">Correo electrónico</Label>
             <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@ejemplo.com" />
-          </div>
+          </div> */}
 
           <Button onClick={handleResendEmail} disabled={isLoading || !email} className="w-full" type="button">
             {isLoading ? (
@@ -90,7 +91,7 @@ export default function VerifyEmail() {
           {/* Mensajes de éxito/error ahora se muestran con Sonner */}
 
           <div className="text-center space-y-2">
-            <Link href="/" className="text-sm text-muted-foreground hover:underline">
+            <Link href="/auth/login" className="text-sm text-muted-foreground hover:underline">
               Ir al inicio
             </Link>
           </div>

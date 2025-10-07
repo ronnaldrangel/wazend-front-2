@@ -22,6 +22,7 @@ export const STRAPI_ENDPOINTS = {
     register: '/api/auth/local/register',
     forgotPassword: '/api/auth/forgot-password',
     resetPassword: '/api/auth/reset-password',
+    sendEmailConfirmation: '/api/auth/send-email-confirmation',
   },
   // Usuarios
   users: {
@@ -102,6 +103,13 @@ export const strapiAuth = {
     return strapiRequest(STRAPI_ENDPOINTS.auth.resetPassword, {
       method: 'POST',
       body: JSON.stringify(resetData),
+    })
+  },
+  
+  sendEmailConfirmation: async (email) => {
+    return strapiRequest(STRAPI_ENDPOINTS.auth.sendEmailConfirmation, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
     })
   },
 }
