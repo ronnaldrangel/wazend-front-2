@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
 export default function Home() {
-  const router = useRouter()
+  // const router = useRouter()
 
-  useEffect(() => {
-    router.push("/auth/login")
-  }, [router])
+  // useEffect(() => {
+  //   router.push("/auth/login")
+  // }, [router])
 
   return (
     <main className="min-h-screen grid place-items-center bg-background">

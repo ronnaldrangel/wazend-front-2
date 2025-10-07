@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import AuthLayout from "../../../components/AuthLayout"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -60,56 +59,43 @@ export default function VerifyEmail() {
 
   return (
     <AuthLayout>
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-extrabold text-center">
-            Verifica tu email
-          </CardTitle>
-          <CardDescription className="text-center">
-            Hemos enviado un enlace de verificación a tu email
-          </CardDescription>
-        </CardHeader>
+      <div className="w-full max-w-md mx-auto">
+        <div className="space-y-1 text-center mb-6">
+          <h1 className="text-2xl font-extrabold">Verifica tu email</h1>
+          <p className="text-sm text-muted-foreground">Revisa tu bandeja de entrada y haz clic en el enlace de verificación para activar tu cuenta.</p>
+        </div>
 
-        <CardContent className="space-y-6">
-          {email && (
-            <p className="text-center text-sm font-medium text-primary">{email}</p>
-          )}
+        {email && (
+          <p className="text-center text-sm font-medium text-primary">{email}</p>
+        )}
 
-          <p className="text-sm text-muted-foreground text-center">
-            Revisa tu bandeja de entrada y haz clic en el enlace de verificación para activar tu cuenta.
-          </p>
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Correo electrónico</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@ejemplo.com" />
-            </div>
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4 mt-6">
+          <div className="space-y-2">
+            <Label htmlFor="email">Correo electrónico</Label>
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@ejemplo.com" />
+          </div>
 
-            <Button onClick={handleResendEmail} disabled={isLoading || !email} className="w-full" type="button">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Reenviando...
-                </>
-              ) : (
-                "Reenviar email de verificación"
-              )}
-            </Button>
+          <Button onClick={handleResendEmail} disabled={isLoading || !email} className="w-full" type="button">
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Reenviando...
+              </>
+            ) : (
+              "Reenviar email de verificación"
+            )}
+          </Button>
 
-            {/* Mensajes de éxito/error ahora se muestran con Sonner */}
+          {/* Mensajes de éxito/error ahora se muestran con Sonner */}
 
-            <div className="text-center space-y-2">
-              <Link href="/auth/login" className="text-sm text-primary hover:underline">
-                Volver al login
-              </Link>
-              <br />
-              <Link href="/" className="text-sm text-muted-foreground hover:underline">
-                Ir al inicio
-              </Link>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+          <div className="text-center space-y-2">
+            <Link href="/" className="text-sm text-muted-foreground hover:underline">
+              Ir al inicio
+            </Link>
+          </div>
+        </form>
+      </div>
     </AuthLayout>
   )
 }
