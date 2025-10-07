@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs"
 import { strapiAuth, strapiUsers } from '@/lib/strapi'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  // Permite confiar en el host actual (útil en previews/proxies)
-  trustHost: true,
+  // // Permite confiar en el host actual (útil en previews/proxies)
+  // trustHost: true,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
