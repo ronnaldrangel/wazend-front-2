@@ -89,3 +89,6 @@ export default async function AccountPage() {
     </SidebarProvider>
   );
 }
+export const metadata = {
+  title: "Cuenta",
+}

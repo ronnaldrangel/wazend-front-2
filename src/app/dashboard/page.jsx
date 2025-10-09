@@ -7,6 +7,10 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 import data from "./data.json"
 
+export const metadata = {
+  title: "Dashboard",
+}
+
 export default function Page() {
   return (
     <SidebarProvider>

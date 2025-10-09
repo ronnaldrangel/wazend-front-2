@@ -7,7 +7,7 @@ import AuthLayout from "../../../components/AuthLayout"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+// Removed Card UI wrapper for the form
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
@@ -107,19 +107,14 @@ function ResetPasswordContent() {
 
   return (
     <AuthLayout>
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-extrabold text-center">
-            Restablecer contraseña
-          </CardTitle>
-          <CardDescription className="text-center">
-            Ingresa tu nueva contraseña
-          </CardDescription>
-        </CardHeader>
+      <div className="w-full max-w-md mx-auto">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-extrabold">Restablecer contraseña</h1>
+          <p className="text-sm text-muted-foreground">Ingresa tu nueva contraseña</p>
+        </div>
 
-        <CardContent className="space-y-6">
+        <div className="space-y-6 mt-6">
           {/* Mensajes de éxito/error ahora se muestran con Sonner */}
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="password">Nueva contraseña</Label>
@@ -162,12 +157,12 @@ function ResetPasswordContent() {
 
             <div className="text-center">
               <Link href="/auth/login" className="text-sm text-primary hover:underline">
-                ← Volver al inicio de sesión
+                Volver al inicio de sesión
               </Link>
             </div>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </AuthLayout>
   )
 }

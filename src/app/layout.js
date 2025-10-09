@@ -10,9 +10,15 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Wazend"
+
 export const metadata = {
-  title: "Wazend - Sistema de Autenticación",
-  description: "Sistema robusto de autenticación con NextAuth y Strapi",
+  title: {
+    default: `${SITE_NAME}`,
+    template: `%s - ${SITE_NAME}`,
+  },
+  description: "Sistema desarrollado por Neopatron LTD",
+  applicationName: SITE_NAME,
 };
 
 export default function RootLayout({ children }) {
