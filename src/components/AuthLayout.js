@@ -55,15 +55,16 @@ const AuthLayout = ({ children }) => {
           </div>
         </div>
 
-        {/* Lado derecho - Imagen/Video de fondo */}
+        {/* Lado derecho - Video de fondo */}
         <div className="relative hidden w-1/2 lg:block">
-          <div 
-            className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: 'url(/images/bg-auth.webp)'
-            }}
-          >
-          </div>
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src="/videos/bg-auth.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
         </div>
       </div>
     </div>
