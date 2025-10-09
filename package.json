@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@auth/core": "^0.40.0",
+    "@bprogress/next": "^3.2.12",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
@@ -48,6 +49,7 @@
     "lucide-react": "^0.544.0",
     "next": "15.5.4",
     "next-auth": "^5.0.0-beta.29",
+    "next-nprogress-bar": "^2.4.7",
     "next-themes": "^0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",

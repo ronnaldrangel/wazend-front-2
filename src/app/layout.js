@@ -3,7 +3,7 @@ import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider"
-// import { ThemeProvider } from "next-themes";
+import Providers from './providers';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,14 +21,14 @@ export default function RootLayout({ children }) {
       <body
         className={`antialiased bg-background text-foreground ${inter.variable}`}
       >
-        <ThemeProvider 
-        attribute="class" 
-        defaultTheme="dark" 
-        enableSystem
-        disableTransitionOnChange
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
         >
           <SessionProvider>
-            {children}
+            <Providers>{children}</Providers>
             <Toaster />
           </SessionProvider>
         </ThemeProvider>
