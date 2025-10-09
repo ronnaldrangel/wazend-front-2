@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
 import bcrypt from "bcryptjs"
-import { strapiAuth, strapiUsers } from '@/lib/strapi'
+import { strapiAuth, strapiUsers, buildStrapiUrl, getDefaultHeaders } from '@/lib/strapi'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // // Permite confiar en el host actual (útil en previews/proxies)
@@ -47,19 +47,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (!data.user.confirmed) {
               console.log("⚠️ User email not verified")
               // Retornamos un objeto especial para indicar que el usuario no está verificado
-              return {
-                id: data.user.id.toString(),
-                email: data.user.email,
-                name: data.user.username,
-                strapiToken: data.jwt,
-                emailVerified: false, // Indicador de que el email no está verificado
-              }
+            return {
+              id: data.user.id.toString(),
+              email: data.user.email,
+              name: data.user.name || data.user.username,
+              strapiToken: data.jwt,
+              emailVerified: false, // Indicador de que el email no está verificado
+            }
             }
             
             return {
               id: data.user.id.toString(),
               email: data.user.email,
-              name: data.user.username,
+              name: data.user.name || data.user.username,
               strapiToken: data.jwt,
               emailVerified: true, // Email verificado
             }
@@ -111,11 +111,87 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    async signIn({ account, profile }) {
+      // Conectar OAuth (Google) con Strapi para crear/actualizar usuario y obtener JWT
+      if (account?.provider === 'google') {
+        try {
+          if (!account.access_token) {
+            console.error('❌ Access token de Google faltante')
+            return false
+          }
+
+          const callbackUrl = buildStrapiUrl(`/api/auth/google/callback?access_token=${account.access_token}`)
+          const headers = getDefaultHeaders()
+          console.log('🔎 signIn(Google): llamando a', callbackUrl)
+          const authRes = await fetch(callbackUrl, { method: 'GET', headers })
+
+          if (!authRes.ok) {
+            console.error(`❌ Error en callback OAuth de Strapi: ${authRes.status}`)
+            return false
+          }
+
+          const authData = await authRes.json()
+          console.log('📦 signIn(Google): respuesta de Strapi', authData)
+          if (!authData?.jwt || !authData?.user) {
+            console.error('❌ Respuesta de Strapi incompleta para OAuth')
+            return false
+          }
+
+          console.log(`✅ Usuario OAuth sincronizado con Strapi: ${authData.user.email}`)
+          return true
+        } catch (error) {
+          console.error('❌ Error en signIn (Google↔Strapi):', error)
+          return false
+        }
+      }
+      return true
+    },
+    async jwt({ token, user, account }) {
+      // Durante el primer login con Google, obtener JWT de Strapi y guardarlo
+      if (account?.provider === 'google') {
+        try {
+          if (!account.access_token) {
+            console.error('❌ Access token de Google faltante en jwt callback')
+            return token
+          }
+
+          const callbackUrl = buildStrapiUrl(`/api/auth/google/callback?access_token=${account.access_token}`)
+          const headers = getDefaultHeaders()
+          console.log('🔎 jwt(Google): llamando a', callbackUrl)
+          const authRes = await fetch(callbackUrl, { method: 'GET', headers })
+          console.log('📡 jwt(Google): status', authRes.status)
+
+          if (!authRes.ok) {
+            console.error(`❌ Error en callback OAuth de Strapi (jwt): ${authRes.status}`)
+            return token
+          }
+
+          const authData = await authRes.json()
+          console.log('📦 jwt(Google): respuesta de Strapi', authData)
+          if (!authData?.jwt || !authData?.user) {
+            console.error('❌ Datos OAuth de Strapi incompletos (jwt)')
+            return token
+          }
+
+          token.strapiToken = authData.jwt
+          token.strapiUserId = authData.user.id
+          token.email = authData.user.email
+          token.name = authData.user.name || authData.user.username || authData.user.email
+          token.emailVerified = true
+          console.log('🔐 jwt(Google): token.strapiToken (full)', token.strapiToken)
+          console.log('🔐 jwt(Google): token.strapiUserId', token.strapiUserId)
+        } catch (error) {
+          console.error('❌ Error en jwt (Google↔Strapi):', error)
+        }
+      }
+
+      // Solo aplicar datos de usuario cuando provienen del flujo de credenciales
+      if (user?.strapiToken) {
         token.strapiToken = user.strapiToken
         token.strapiUserId = user.id
         token.emailVerified = user.emailVerified
+        console.log('🔐 jwt(Credentials): token.strapiToken (full)', token.strapiToken)
+        console.log('🔐 jwt(Credentials): token.strapiUserId', token.strapiUserId)
       }
       return token
     },
@@ -123,6 +199,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.strapiToken = token.strapiToken
       session.user.strapiUserId = token.strapiUserId
       session.user.emailVerified = token.emailVerified
+      console.log('🪪 session: strapiUserId', session.user.strapiUserId, 'hasJWT', !!session.strapiToken)
+      if (session.strapiToken) {
+        console.log('🪪 session: strapiToken (full)', session.strapiToken)
+      } else {
+        console.log('🪪 session: strapiToken faltante')
+      }
       return session
     },
   },
