@@ -48,10 +48,10 @@ const AuthLayout = ({ children }) => {
             {/* Contenido principal */}
             <main>{children}</main>
             {/* Aviso legal dentro del contenedor, más abajo */}
-            <p className="mt-16 text-xs text-muted-foreground text-center leading-snug">
+            {/* <p className="mt-16 text-xs text-muted-foreground text-center leading-snug">
               Al continuar, acepta los Términos de servicio y la Política de privacidad de Run8in,
               y recibir correos electrónicos periódicos con actualizaciones.
-            </p>
+            </p> */}
           </div>
         </div>
 
