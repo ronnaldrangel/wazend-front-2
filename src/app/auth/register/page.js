@@ -206,7 +206,7 @@ export default function RegisterPage() {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder="••••••••"
                   className={(errors.password ? "border-destructive " : "") + "pr-10"}
                 />
                 <button

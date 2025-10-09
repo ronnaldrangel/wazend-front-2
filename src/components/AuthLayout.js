@@ -43,10 +43,15 @@ const AuthLayout = ({ children }) => {
 
       <div className="flex min-h-full flex-1">
         {/* Lado izquierdo - Formulario */}
-        <div className="flex flex-1 w-full lg:w-1/2 flex-col justify-center px-8 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-background">
+        <div className="flex flex-1 w-full lg:w-1/2 flex-col justify-center px-8 pt-12 pb-2 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-background">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             {/* Contenido principal */}
             <main>{children}</main>
+            {/* Aviso legal dentro del contenedor, más abajo */}
+            <p className="mt-16 text-xs text-muted-foreground text-center leading-snug">
+              Al continuar, acepta los Términos de servicio y la Política de privacidad de Run8in,
+              y recibir correos electrónicos periódicos con actualizaciones.
+            </p>
           </div>
         </div>
 
