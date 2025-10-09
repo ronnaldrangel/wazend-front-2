@@ -1,5 +1,7 @@
 "use client";
 import * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 import {
   SidebarGroup,
@@ -13,17 +15,18 @@ export function NavSecondary({
   items,
   ...props
 }) {
+  const pathname = usePathname()
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <a href={item.url}>
+              <SidebarMenuButton asChild isActive={pathname === item.url}>
+                <Link href={item.url} aria-current={pathname === item.url ? "page" : undefined}>
                   <item.icon />
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

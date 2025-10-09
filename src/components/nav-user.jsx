@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import {
   BellIcon,
   CreditCardIcon,
@@ -91,13 +92,17 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <UserCircleIcon />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="/account">
+                  <UserCircleIcon />
+                  Mi Cuenta
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
+              <DropdownMenuItem asChild>
+                <Link href="/billing">
+                  <CreditCardIcon />
+                  Facturacion
+                </Link>
               </DropdownMenuItem>
               {/* <DropdownMenuItem>
                 <BellIcon />
