@@ -175,7 +175,7 @@ export function AppSidebar({
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Run8in</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate text-xs">Power in 1 click</span>
                 </div>
               </a>
             </SidebarMenuButton>
