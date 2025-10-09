@@ -37,31 +37,7 @@ export default function LoginPage() {
     setErrors({})
 
     try {
-      // Primero verificar si el usuario existe
-      const userCheckResponse = await fetch("/api/check-user-status", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      })
-
-      const userCheckData = await userCheckResponse.json()
-
-      if (!userCheckData.exists) {
-        toast.error("No existe una cuenta con este email")
-        setIsLoading(false)
-        return
-      }
-
-      // Si el usuario existe pero no está verificado
-      if (!userCheckData.confirmed) {
-        // Redirigir a la página de verificación de email
-        window.location.href = `/auth/verify-email?email=${encodeURIComponent(email)}`
-        return
-      }
-
-      // Proceder con el login usando NextAuth
+      // Proceder con el login usando NextAuth directamente, sin prechequeo
       const result = await signIn("credentials", {
         email,
         password,
