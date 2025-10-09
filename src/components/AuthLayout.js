@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
-import ToggleMode from './ui/toggle-mode'
+import { ModeToggle } from './mode-toggle'
 import LanguageSelector from './language-selector'
 
 const AuthLayout = ({ children }) => {
@@ -20,7 +20,7 @@ const AuthLayout = ({ children }) => {
       {/* Selectores de tema e idioma en la esquina superior derecha */}
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         <LanguageSelector />
-        <ToggleMode />
+        <ModeToggle />
       </div>
 
       {/* Logo en la esquina superior izquierda */}

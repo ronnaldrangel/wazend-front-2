@@ -54,8 +54,6 @@ const LanguageSelector = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuLabel>Idioma</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
