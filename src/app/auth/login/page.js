@@ -45,9 +45,18 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        if (result.error === "CredentialsSignin") {
-          toast.error("Contraseña incorrecta")
-        } else {
+        // Consultar el endpoint del backend para obtener el mensaje específico
+        try {
+          const msgResp = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          })
+
+          const msgData = await msgResp.json()
+          const message = msgData?.error?.message || msgData?.message || "Error al iniciar sesión. Inténtalo de nuevo."
+          toast.error(message)
+        } catch (e) {
           toast.error("Error al iniciar sesión. Inténtalo de nuevo.")
         }
       } else if (result?.ok) {
