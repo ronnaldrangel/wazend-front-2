@@ -3,7 +3,7 @@ import { strapiAuth } from '@/lib/strapi'
 
 export async function POST(request) {
   try {
-    const { username, email, password } = await request.json()
+    const { username, email, password, name, phone } = await request.json()
 
     // Validación de parámetros requeridos
     if (!username || !email || !password) {
@@ -19,11 +19,11 @@ export async function POST(request) {
 
     console.log('📝 Registration attempt for:', email)
 
-    const strapiResponse = await strapiAuth.register({
-      username,
-      email,
-      password
-    })
+    const userData = { username, email, password }
+    if (name) userData.name = name
+    if (phone) userData.phone = phone
+
+    const strapiResponse = await strapiAuth.register(userData)
 
     const strapiData = await strapiResponse.json()
 
@@ -63,7 +63,9 @@ export async function POST(request) {
       user: {
         id: strapiData.user.id,
         username: strapiData.user.username,
-        email: strapiData.user.email
+        email: strapiData.user.email,
+        name: strapiData.user?.name,
+        phone: strapiData.user?.phone
       }
     })
 

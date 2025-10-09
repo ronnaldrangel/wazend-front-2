@@ -10,12 +10,15 @@ import { Label } from "../../../components/ui/label"
 import { toast } from "sonner"
 import { Separator } from "../../../components/ui/separator"
 import { Loader2, CheckCircle2, Circle, Eye, EyeOff } from "lucide-react"
+import { PhoneInput } from "@/components/ui/phone-input"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
+    name: "",
     username: "",
     email: "",
     password: "",
+    phone: "",
   })
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
@@ -176,6 +179,18 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
             {/* Campo de nombre de usuario eliminado: se autogenera desde el email */}
+            <div className="space-y-2">
+              <Label htmlFor="name">Nombre</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Tu nombre"
+              />
+            </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Correo electrónico</Label>
@@ -193,6 +208,21 @@ export default function RegisterPage() {
               {errors.email && (
                 <p className="text-sm text-destructive">{errors.email}</p>
               )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone">Teléfono</Label>
+              <PhoneInput
+                id="phone"
+                name="phone"
+                placeholder="Tu teléfono"
+                value={formData.phone}
+                onChange={(value) =>
+                  setFormData((prev) => ({ ...prev, phone: value || "" }))
+                }
+                international
+                defaultCountry="ES"
+              />
             </div>
 
             <div className="space-y-2">
