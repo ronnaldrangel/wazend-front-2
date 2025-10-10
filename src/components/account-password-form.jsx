@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 export default function AccountPasswordForm() {
   const [currentPassword, setCurrentPassword] = useState('')
@@ -35,53 +38,53 @@ export default function AccountPasswordForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium">Contraseña actual</label>
-        <input
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          placeholder="Tu contraseña actual"
-          autoComplete="current-password"
-          required
-        />
-      </div>
-      
-      <div>
-        <label className="block text-sm font-medium">Nueva contraseña</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          placeholder="Nueva contraseña"
-        	autoComplete="new-password"
-          required
-        />
-      </div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-6">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="currentPassword">Contraseña actual</FieldLabel>
+          <Input
+            id="currentPassword"
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder="Tu contraseña actual"
+            autoComplete="current-password"
+            required
+          />
+        </Field>
+        
+        <Field>
+          <FieldLabel htmlFor="password">Nueva contraseña</FieldLabel>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Nueva contraseña"
+            autoComplete="new-password"
+            required
+          />
+        </Field>
 
-      <div>
-        <label className="block text-sm font-medium">Confirmar nueva contraseña</label>
-        <input
-          type="password"
-          value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          placeholder="Confirmar nueva contraseña"
-          autoComplete="new-password"
-          required
-        />
-      </div>
+        <Field>
+          <FieldLabel htmlFor="passwordConfirmation">Confirmar nueva contraseña</FieldLabel>
+          <Input
+            id="passwordConfirmation"
+            type="password"
+            value={passwordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            placeholder="Confirmar nueva contraseña"
+            autoComplete="new-password"
+            required
+          />
+        </Field>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-primary-foreground hover:opacity-90 disabled:opacity-50"
-      >
-        {loading ? 'Guardando…' : 'Cambiar contraseña'}
-      </button>
+        <Field>
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? 'Guardando…' : 'Cambiar contraseña'}
+          </Button>
+        </Field>
+      </FieldGroup>
     </form>
   )
 }

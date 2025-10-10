@@ -5,7 +5,7 @@ import Link from "next/link"
 import AuthLayout from "../../../components/AuthLayout"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
@@ -77,22 +77,27 @@ export default function ForgotPasswordPage() {
 
         {/* Mensajes de éxito/error ahora se muestran con Sonner */}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Correo electrónico</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@ejemplo.com"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="email">Correo electrónico</FieldLabel>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@ejemplo.com"
+                aria-invalid={Boolean(error)}
+                className={error ? "border-destructive" : ""}
+              />
+              {error && <FieldError>{error}</FieldError>}
+            </Field>
 
-          <Button type="submit" disabled={isLoading} className="w-full">
+            <Field>
+              <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -101,12 +106,14 @@ export default function ForgotPasswordPage() {
             ) : (
               "Enviar enlace de recuperación"
             )}
-          </Button>
+              </Button>
+            </Field>
 
-        <p className="px-6 text-center text-sm text-muted-foreground mt-6">
-          ¿Ya tienes una cuenta? {" "}
-          <Link href="/auth/login" className="font-medium text-primary underline underline-offset-4">Inicia sesión</Link>
-        </p>
+            <p className="px-6 text-center text-sm text-muted-foreground mt-6">
+              ¿Ya tienes una cuenta? {" "}
+              <Link href="/auth/login" className="font-medium text-primary underline underline-offset-4">Inicia sesión</Link>
+            </p>
+          </FieldGroup>
         </form>
       </div>
     </AuthLayout>

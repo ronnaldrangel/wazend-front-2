@@ -6,7 +6,7 @@ import Link from "next/link"
 import AuthLayout from "../../../components/AuthLayout"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 // Removed Card UI wrapper for the form
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
@@ -115,36 +115,37 @@ function ResetPasswordContent() {
 
         <div className="space-y-6 mt-6">
           {/* Mensajes de éxito/error ahora se muestran con Sonner */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">Nueva contraseña</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="password">Nueva contraseña</FieldLabel>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                />
+              </Field>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Repite tu nueva contraseña"
-              />
-            </div>
+              <Field>
+                <FieldLabel htmlFor="confirmPassword">Confirmar contraseña</FieldLabel>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Repite tu nueva contraseña"
+                />
+              </Field>
 
-            <Button type="submit" disabled={isLoading || !code} className="w-full">
+              <Button type="submit" disabled={isLoading || !code} className="w-full">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -153,13 +154,14 @@ function ResetPasswordContent() {
               ) : (
                 "Actualizar contraseña"
               )}
-            </Button>
+              </Button>
 
             <div className="text-center">
               <Link href="/auth/login" className="text-sm text-primary hover:underline">
                 Volver al inicio de sesión
               </Link>
             </div>
+            </FieldGroup>
           </form>
         </div>
       </div>

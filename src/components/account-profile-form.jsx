@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 export default function AccountProfileForm({ initialName = '', initialPhone = '' }) {
   const [name, setName] = useState(initialName || '')
@@ -31,36 +34,36 @@ export default function AccountProfileForm({ initialName = '', initialPhone = ''
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium">Nombre</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          placeholder="Tu nombre"
-        />
-      </div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-6">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="name">Nombre</FieldLabel>
+          <Input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Tu nombre"
+          />
+        </Field>
 
-      <div>
-        <label className="block text-sm font-medium">Teléfono</label>
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          placeholder="Tu teléfono"
-        />
-      </div>
+        <Field>
+          <FieldLabel htmlFor="phone">Teléfono</FieldLabel>
+          <Input
+            id="phone"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Tu teléfono"
+          />
+        </Field>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-primary-foreground hover:opacity-90 disabled:opacity-50"
-      >
-        {loading ? 'Guardando…' : 'Guardar cambios'}
-      </button>
+        <Field>
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? 'Guardando…' : 'Guardar cambios'}
+          </Button>
+        </Field>
+      </FieldGroup>
     </form>
   )
 }
