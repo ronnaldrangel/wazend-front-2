@@ -48,7 +48,7 @@ const LanguageSelector = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Seleccionar idioma">
+        <Button variant="ghost" size="icon" aria-label="Seleccionar idioma" className="border-0">
           <span className="text-sm">{currentLang?.flag}</span>
           <span className="sr-only">Idioma actual: {currentLang?.name}</span>
         </Button>

@@ -6,9 +6,8 @@ import { signIn } from "next-auth/react"
 import AuthLayout from "../../../components/AuthLayout"
 import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
-import { Label } from "../../../components/ui/label"
 import { toast } from "sonner"
-import { Separator } from "../../../components/ui/separator"
+import { Field, FieldGroup, FieldLabel, FieldSeparator, FieldError } from "@/components/ui/field"
 import { Loader2, CheckCircle2, Circle, Eye, EyeOff } from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
 
@@ -177,10 +176,11 @@ export default function RegisterPage() {
 
         {/* Mensajes de éxito/error ahora se muestran con Sonner */}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <FieldGroup>
             {/* Campo de nombre de usuario eliminado: se autogenera desde el email */}
-            <div className="space-y-2">
-              <Label htmlFor="name">Nombre</Label>
+            <Field>
+              <FieldLabel htmlFor="name">Nombre</FieldLabel>
               <Input
                 id="name"
                 name="name"
@@ -190,10 +190,10 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="Tu nombre"
               />
-            </div>
+            </Field>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Correo electrónico</Label>
+            <Field>
+              <FieldLabel htmlFor="email">Correo electrónico</FieldLabel>
               <Input
                 id="email"
                 name="email"
@@ -203,15 +203,16 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="tu@ejemplo.com"
+                aria-invalid={Boolean(errors.email)}
                 className={errors.email ? "border-destructive" : ""}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email}</p>
+                <FieldError>{errors.email}</FieldError>
               )}
-            </div>
+            </Field>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">Teléfono</Label>
+            <Field>
+              <FieldLabel htmlFor="phone">Teléfono</FieldLabel>
               <PhoneInput
                 id="phone"
                 name="phone"
@@ -223,10 +224,10 @@ export default function RegisterPage() {
                 international
                 defaultCountry="ES"
               />
-            </div>
+            </Field>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
+            <Field>
+              <FieldLabel htmlFor="password">Contraseña</FieldLabel>
               <div className="relative">
                 <Input
                   id="password"
@@ -237,6 +238,7 @@ export default function RegisterPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
+                  aria-invalid={Boolean(errors.password)}
                   className={(errors.password ? "border-destructive " : "") + "pr-10"}
                 />
                 <button
@@ -253,7 +255,7 @@ export default function RegisterPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password}</p>
+                <FieldError>{errors.password}</FieldError>
               )}
               {formData.password && (
                 <ul className="mt-1 space-y-1 text-xs leading-tight">
@@ -299,9 +301,10 @@ export default function RegisterPage() {
                   </li>
                 </ul>
               )}
-            </div>
+            </Field>
 
-            <Button type="submit" disabled={isLoading} className="w-full">
+            <Field>
+              <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -310,7 +313,8 @@ export default function RegisterPage() {
               ) : (
                 "Crear cuenta"
               )}
-            </Button>
+              </Button>
+            </Field>
 
             {/* <p className="px-8 text-center text-xs text-muted-foreground">
               Al crear una cuenta, aceptas nuestros {" "}
@@ -319,15 +323,9 @@ export default function RegisterPage() {
               <Link href="/privacy" className="underline underline-offset-4">Política de privacidad</Link>.
             </p> */}
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator className="w-full" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">O continúa con</span>
-              </div>
-            </div>
+            <FieldSeparator>O continúa con</FieldSeparator>
 
+            <Field>
             <Button
               type="button"
               variant="outline"
@@ -343,6 +341,8 @@ export default function RegisterPage() {
               </svg>
               Continuar con Google
             </Button>
+            </Field>
+          </FieldGroup>
           </form>
 
         <p className="px-6 text-center text-sm text-muted-foreground mt-6">
