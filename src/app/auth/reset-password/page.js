@@ -10,6 +10,9 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 // Removed Card UI wrapper for the form
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import Turnstile from "react-turnstile"
+
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 export default function ResetPasswordPage() {
   return (
@@ -34,6 +37,7 @@ function ResetPasswordContent() {
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
   const [code, setCode] = useState("")
+  const [tsToken, setTsToken] = useState("")
   
   const searchParams = useSearchParams()
 
@@ -75,6 +79,25 @@ function ResetPasswordContent() {
     setMessage("")
 
     try {
+      if (SITE_KEY) {
+        if (!tsToken) {
+          toast.error("Completa el desafío de seguridad")
+          setIsLoading(false)
+          return
+        }
+        const vResp = await fetch("/api/turnstile/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: tsToken }),
+        })
+        const vData = await vResp.json()
+        if (!vResp.ok || !vData?.success) {
+          toast.error("Verificación de seguridad falló. Inténtalo de nuevo.")
+          setIsLoading(false)
+          return
+        }
+      }
+
       const response = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: {
@@ -144,6 +167,16 @@ function ResetPasswordContent() {
                   placeholder="Repite tu nueva contraseña"
                 />
               </Field>
+
+              {SITE_KEY ? (
+                <Field>
+                  <Turnstile
+                    sitekey={SITE_KEY}
+                    onVerify={(token) => setTsToken(token)}
+                  />
+                  <input type="hidden" name="cf-turnstile-response" value={tsToken} />
+                </Field>
+              ) : null}
 
               <Button type="submit" disabled={isLoading || !code} className="w-full">
               {isLoading ? (

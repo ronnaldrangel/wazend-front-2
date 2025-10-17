@@ -60,22 +60,21 @@ export default function VerifyEmail() {
   return (
     <AuthLayout>
       <div className="w-full max-w-md mx-auto">
-        <div className="space-y-1 text-center mb-6">
+        <div className="space-y-1 text-left mb-6">
           <h1 className="text-2xl font-extrabold">Verifica tu email</h1>
           <p className="text-sm text-muted-foreground">Revisa tu bandeja de entrada y haz clic en el enlace de verificación para activar tu cuenta.</p>
         </div>
 
-        {email && (
+        {/* {email && (
           <p className="text-center text-sm font-medium text-primary">{email}</p>
-        )}
-
+        )} */}
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4 mt-6">
           
-          {/* <div className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="email">Correo electrónico</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@ejemplo.com" />
-          </div> */}
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@ejemplo.com" readOnly />
+          </div>
 
           <Button onClick={handleResendEmail} disabled={isLoading || !email} className="w-full" type="button">
             {isLoading ? (

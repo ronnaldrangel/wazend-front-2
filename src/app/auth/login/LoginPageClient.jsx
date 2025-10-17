@@ -28,6 +28,8 @@ export default function LoginPageClient() {
     const form = new FormData(e.currentTarget)
     const email = form.get('email')?.toString() || ''
     const password = form.get('password')?.toString() || ''
+    const turnstileToken = form.get('cf-turnstile-response')?.toString() || ''
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
     if (!validateFormValues(email, password)) return
 
@@ -35,6 +37,26 @@ export default function LoginPageClient() {
     setErrors({})
 
     try {
+      if (siteKey) {
+        if (!turnstileToken) {
+          toast.error("Completa el desafío de seguridad")
+          setIsLoading(false)
+          return
+        }
+
+        const vResp = await fetch("/api/turnstile/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: turnstileToken }),
+        })
+        const vData = await vResp.json()
+        if (!vResp.ok || !vData?.success) {
+          toast.error("Verificación de seguridad falló. Inténtalo de nuevo.")
+          setIsLoading(false)
+          return
+        }
+      }
+
       const result = await signIn("credentials", {
         email,
         password,

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Turnstile from "react-turnstile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Loader2, Eye, EyeOff } from "lucide-react"
@@ -20,6 +21,8 @@ export function LoginForm({
   ...props
 }) {
   const [showPassword, setShowPassword] = useState(false)
+  const [tsToken, setTsToken] = useState("")
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -63,6 +66,15 @@ export function LoginForm({
             </button>
           </div>
         </Field>
+        {siteKey ? (
+          <Field>
+            <Turnstile
+              sitekey={siteKey}
+              onVerify={(token) => setTsToken(token)}
+            />
+            <input type="hidden" name="cf-turnstile-response" value={tsToken} />
+          </Field>
+        ) : null}
         <Field>
           <Button type="submit" disabled={submitting}>
             {submitting ? (

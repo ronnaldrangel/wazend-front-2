@@ -8,12 +8,16 @@ import { Input } from "@/components/ui/input"
 import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import Turnstile from "react-turnstile"
+
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
+  const [tsToken, setTsToken] = useState("")
 
   const validateForm = () => {
     if (!email) {
@@ -39,6 +43,25 @@ export default function ForgotPasswordPage() {
     setMessage("")
 
     try {
+      if (SITE_KEY) {
+        if (!tsToken) {
+          toast.error("Completa el desafío de seguridad")
+          setIsLoading(false)
+          return
+        }
+        const vResp = await fetch("/api/turnstile/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: tsToken }),
+        })
+        const vData = await vResp.json()
+        if (!vResp.ok || !vData?.success) {
+          toast.error("Verificación de seguridad falló. Inténtalo de nuevo.")
+          setIsLoading(false)
+          return
+        }
+      }
+
       const response = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: {
@@ -95,6 +118,16 @@ export default function ForgotPasswordPage() {
               />
               {error && <FieldError>{error}</FieldError>}
             </Field>
+
+            {SITE_KEY ? (
+              <Field>
+                <Turnstile
+                  sitekey={SITE_KEY}
+                  onVerify={(token) => setTsToken(token)}
+                />
+                <input type="hidden" name="cf-turnstile-response" value={tsToken} />
+              </Field>
+            ) : null}
 
             <Field>
               <Button type="submit" disabled={isLoading} className="w-full">

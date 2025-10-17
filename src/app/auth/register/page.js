@@ -10,6 +10,9 @@ import { toast } from "sonner"
 import { Field, FieldGroup, FieldLabel, FieldSeparator, FieldError } from "@/components/ui/field"
 import { Loader2, CheckCircle2, Circle, Eye, EyeOff } from "lucide-react"
 import { PhoneInput } from "@/components/ui/phone-input"
+import Turnstile from "react-turnstile"
+
+const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -29,6 +32,7 @@ export default function RegisterPage() {
     length: false,
   })
   const [showPassword, setShowPassword] = useState(false)
+  const [tsToken, setTsToken] = useState("")
 
   const generateUsernameFromEmail = (email) => {
     if (!email || typeof email !== "string") return ""
@@ -76,6 +80,25 @@ export default function RegisterPage() {
     setErrors({})
 
     try {
+      if (SITE_KEY) {
+        if (!tsToken) {
+          toast.error("Completa el desafío de seguridad")
+          setIsLoading(false)
+          return
+        }
+        const vResp = await fetch("/api/turnstile/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: tsToken }),
+        })
+        const vData = await vResp.json()
+        if (!vResp.ok || !vData?.success) {
+          toast.error("Verificación de seguridad falló. Inténtalo de nuevo.")
+          setIsLoading(false)
+          return
+        }
+      }
+
       const payload = {
         ...formData,
         username: formData.username || generateUsernameFromEmail(formData.email),
@@ -302,6 +325,16 @@ export default function RegisterPage() {
                 </ul>
               )}
             </Field>
+
+            {SITE_KEY ? (
+              <Field>
+                <Turnstile
+                  sitekey={SITE_KEY}
+                  onVerify={(token) => setTsToken(token)}
+                />
+                <input type="hidden" name="cf-turnstile-response" value={tsToken} />
+              </Field>
+            ) : null}
 
             <Field>
               <Button type="submit" disabled={isLoading} className="w-full">
