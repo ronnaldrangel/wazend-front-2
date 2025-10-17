@@ -28,12 +28,12 @@ const AuthLayout = ({ children }) => {
         <Link href="/" className="block">
           {mounted ? (
             <Image
-              src={theme === "dark" ? "/images/logo-light.png" : "/images/logo-dark.png"}
+              src={theme === "dark" ? "/images/logo-white.png" : "/images/logo-black.png"}
               alt="Logo"
               width={140}
               height={24}
               priority
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
           ) : (
             <div className="h-8 w-24 bg-muted rounded animate-pulse"></div>

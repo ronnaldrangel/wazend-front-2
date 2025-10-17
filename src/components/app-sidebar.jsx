@@ -34,6 +34,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Image from "next/image"
+import { useTheme } from 'next-themes'
 
 const data = {
   user: {
@@ -48,17 +50,17 @@ const data = {
       icon: LayoutDashboardIcon,
     },
     {
-      title: "Aplicaciones",
+      title: "Productos",
       url: "/apps",
       icon: FileCodeIcon,
     },
     {
-      title: "Servidores virtuales",
+      title: "Metricas",
       url: "/virtual-servers",
       icon: DatabaseIcon,
     },
     {
-      title: "Todos los productos",
+      title: "Mi vendedor",
       url: "/products",
       icon: ListIcon,
     },
@@ -135,6 +137,7 @@ export function AppSidebar({
   ...props
 }) {
   const { data: session } = useSession()
+  const { resolvedTheme } = useTheme()
   const userFromSession = {
     name: session?.user?.name || session?.user?.email || "Usuario",
     email: session?.user?.email || "",
@@ -144,7 +147,7 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
+        {/* <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
@@ -158,7 +161,18 @@ export function AppSidebar({
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> */}
+        <div className="flex pb-2">
+              <Image
+              src={resolvedTheme === "dark" ? "/images/logo-white.png" : "/images/logo-black.png"}
+              alt="Logo"
+              width={140}
+              height={24}
+              priority
+              className="h-8 w-auto"
+            />
+        </div>
+
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
