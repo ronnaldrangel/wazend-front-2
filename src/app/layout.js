@@ -24,6 +24,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
+      <head>
+        <title>{SITE_NAME}</title>
+      </head>
       <body
         className={`antialiased bg-background text-foreground ${inter.variable}`}
       >

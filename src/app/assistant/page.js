@@ -2,9 +2,6 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
-export const metadata = {
-  title: "Aplicaciones",
-}
 
 export default function AppsPage() {
   return (
