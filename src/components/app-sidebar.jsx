@@ -122,6 +122,11 @@ const data = {
       url: "#",
       icon: FileTextIcon,
     },
+    {
+      title: "Afiliados",
+      url: "/afiliados",
+      icon: UsersIcon,
+    },
   ],
   // Se eliminó la sección de documentos del sidebar
 }
