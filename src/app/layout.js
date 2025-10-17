@@ -10,7 +10,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Wazend"
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Mi App"
 
 export const metadata = {
   title: {
