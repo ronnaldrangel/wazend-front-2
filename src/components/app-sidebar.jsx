@@ -20,6 +20,9 @@ import {
   SettingsIcon,
   UsersIcon,
   Command,
+  BoxIcon,
+  ChartBarIcon,
+  BotIcon,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -51,18 +54,18 @@ const data = {
     },
     {
       title: "Productos",
-      url: "/apps",
-      icon: FileCodeIcon,
+      url: "/products",
+      icon: BoxIcon,
     },
     {
       title: "Metricas",
-      url: "/virtual-servers",
-      icon: DatabaseIcon,
+      url: "/metrics",
+      icon: ChartBarIcon,
     },
     {
       title: "Mi vendedor",
-      url: "/products",
-      icon: ListIcon,
+      url: "/assistant",
+      icon: BotIcon,
     },
   ],
   navClouds: [
